@@ -23,6 +23,11 @@
 	
 	<context:component-scan base-package="com.studyspring.controller" />
 	
+	<!-- Service -->
+	<beans:bean id="UserInfoService" class= "com.st"
+	
+	
+	
 	
 	
 </beans:beans>

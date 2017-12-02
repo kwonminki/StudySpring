@@ -24,12 +24,14 @@
 		<p><strong style="color:Blue; font-size: 20px">1. Model,View - 1</strong></p>
 		<label>* EL표기법 : 표현언어로 JSP 2.0에서 새로 추가된 스크립트 언어. 스프링 프레임워크에서 Model값 매핑 시 사용</label>
 		<br>
-		
+		<label>Study topic : ${modelvalue} </label>
 	</div>
 	<br>
 	<div id="study2">
 		<p><strong style="color:Blue; font-size: 20px">2. Model, View - 2</strong></p>
-		
+		<input type="hidden" id="value1" value="${value1}"/>
+		<input type="hidden" id="value2" value="${value2}"/>
+		<label>(Console print...)</label>
 	</div>
 	<br>
 	<div id="study3">
@@ -39,7 +41,7 @@
 	<br>
 	<div id="study4">
 		<p><strong style="color:Blue; font-size: 20px">4. @Service, @Repository, @Autowired - 2</strong></p>
-		
+		<label>Search name is ${searchname}</label>
 	</div>
 	<br>
 	<div id="study5">
@@ -66,7 +68,7 @@
 </body>
 <script type="text/javascript">
 $(function(){
-
+	console.log(value1+'+'+value2+'-'+(value1+value2));
 });
 </script>
 </html>
