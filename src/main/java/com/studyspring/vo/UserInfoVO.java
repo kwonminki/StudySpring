@@ -1,16 +1,10 @@
 package com.studyspring.vo;
 
-public class UserInfoEnrollRequestVO {
+public class UserInfoVO {
 	private String userName;
 	private int userAge;
 	private String userImage;
 	
-	public String getUserImage() {
-		return userImage;
-	}
-	public void setUserImage(String userImage) {
-		this.userImage = userImage;
-	}
 	public String getUserName() {
 		return userName;
 	}
@@ -22,5 +16,11 @@ public class UserInfoEnrollRequestVO {
 	}
 	public void setUserAge(int userAge) {
 		this.userAge = userAge;
+	}
+	public String getUserImage() {
+		return userImage;
+	}
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
 	}
 }

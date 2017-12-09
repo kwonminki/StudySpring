@@ -1,2 +1,4 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/studyspring/controller/MainController.java=UTF-8
+encoding//src/main/java/com/studyspring/dao/UserInfoDaoImpl.java=UTF-8
+encoding//src/main/java/com/studyspring/util/MailUtil.java=UTF-8

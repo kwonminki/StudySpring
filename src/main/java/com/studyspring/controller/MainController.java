@@ -1,57 +1,76 @@
 package com.studyspring.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springstudy.service.UserInfoService;
+import com.studyspring.service.UserInfoService;
+import com.studyspring.util.MailUtil;
+import com.studyspring.vo.UserInfoVO;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class MainController {
-	@Autowired  //자동연결
-	UserInfoService userInfoService;  //new를 안해서 Impl로 작동.
+	@Autowired
+	UserInfoService userInfoService;
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
+	@Autowired
+	MailUtil mailUtil;
+	
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public ModelAndView main(ModelAndView mv) {
 		mv.setViewName("main");
 		
+		//Study 1//
 		mv.addObject("modelvalue", "Hello Spring");
 		
+		//Study 2//
 		mv.addObject("value1", "5");
 		mv.addObject("value2", "6");
 		
-		Map<String,Object> info = new HashMap<String, Object>();
-		info.put("name", "kwonminki");
+		//Study 3//
+		Map<String, Object> info = new HashMap<String, Object>();
+		info.put("name", "seochangwook");
 		
 		mv.addObject("searchname", userInfoService.searchNameService(info));
 		
-		UserInfoEnrollRequestVO userInfoEnrollRequestVO = new UserInfoEnrollRequestVO();
-		Map<String, Object> result = new HashMap<String, Object>();
 		
-		userInfoEnrollRequestVO.setUserName("kwonminki");
-		userInfoEnrollRequestVO.setUserAge(22);
-		userInfoEnrollRequestVO.setUserImage("sampleimage1.png");
+		//study 5//
+		boolean isCheck = true;
+		if(isCheck == true){
 		
-		if(userInfoService.enrollUserInfoService(userInfoEnrollRequestVO)==1){
-			result.put("flag", "success")
+			Map<String, Object> retVal = new HashMap<String, Object>();
+		
+			retVal.put("type", 2);
+		
+			mv.addObject("retType", retVal);
 		}
+		mv.addObject("value", isCheck);
+		
+		//study 6//배고파
+		List listuser = userInfoService.getUserInfoListService();
+		System.out.println("user count : "+listuser.size());
+		
+		mv.addObject("listuser", listuser);
+		return mv;
+	}
+		//study 8//
+		@RequestMapping(value = "/samplepage.do", method = RequestMethod.POST)
+		public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
+			mv.setViewName("samplepage");
+			
+			mv.addObject("name", request.getParameter("inputname"));
+			mv.addObject("age", request.getParameter("inputage"));
 		
 		return mv;
 	}
