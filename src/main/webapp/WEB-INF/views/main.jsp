@@ -14,6 +14,8 @@
 	<!-- Zebra-Dialog CDN -->
 	<script src="resources/js/dialog/zebra_dialog.src.js"></script>
 	<link rel="stylesheet" href="resources/css/dialog/zebra_dialog.css" type="text/css"/>
+	<!-- ProgressBar -->
+	<link rel="stylesheet" href="resources/css/progressbar/progressbarcss.css" type="text/css"/>
 </head>
 <body>
 	<div>
@@ -118,10 +120,139 @@
 			<p><button type='submit'>페이지 이동</button></p>
 		</form>
 	</div>
+	<br>
+	<div id="study11">
+		<p><strong style="color:Blue; font-size: 20px">11. Database (MyBatis)</strong></p>
+		<div id="conditionfield">
+			<label>* 조회영역</label>
+			<div>
+				<label>- 이름: </label>&nbsp;<input type="text" id="in_name">
+				<label>, 나이: </label>&nbsp;<input type="number" id="in_age">
+				<label>, 번호: </label>&nbsp;<input type="text" id="in_no">
+				<br>
+				<button type="button" class="btn btn-primary" id="btn-search">검색</button>
+			</div>
+		</div>
+		<br>
+		<div id="tablefield">
+			<p>table field...</p>
+		</div>
+	</div>
+	<div class="wrap-loading display-none">
+    		<div><img src="resources/images/ajaxprogress/ajax-loader.gif" /></div>
+	</div> 
 </body>
 <script type="text/javascript">
 $(function(){
-	console.log(value1+'+'+value2+'-'+(value1+value2));
+	$("[data-pid]").on("click",function(){
+		var selUserName = $(this).data("pid");
+	console.log(selUserName);
+	
+	var infodialog = new $.Zebra_Dialog('<strong>Message:</strong><br><br><p>['+selUserName+'] 정보를 조회하시겠습니까?</p>',{
+		title: 'Blog Test Dialog',
+		type: 'question',
+		print: false,
+		width: 760,
+		position: ['right - 20', 'top +20'],
+		buttons: ['취소','조회'],
+		onClose: function(caption){
+			if(caption=='조회'){
+				console.log('조회');
+			}
+			else if(caption=='취소'){
+				console.log('update cancle');
+			}
+		}
+	}
+	);
+	});
+$('#btn-search').click(function(){
+	var in_name = $('#in_name').val();
+	var in_age = $('#in_age').val();
+	var in_no = $('#in_no').val();
+	
+	console.log(in_name + ','+in_age+','+in_no);
+	
+	var trans_object =
+		{
+			'searchName':in_name,
+			'searchAge':in_age,
+			'searchNo':in_no
+		}
+	var trans_json = JSON.stringify(trans_object);
+	
+	console.log(trans_json);
+	console.log(trans_object);
+	
+	$.ajax({
+		url: "http://localhost:8090/controller/searchuserdb",
+		type: 'POST',
+		dataType:'json',
+		data: trans_json,
+		contentType: 'application/json',
+		mimeType: 'application/json',
+		beforeSend:function(){
+			$('.wrap-loading').removeClass("display-none");
+		},
+		complete:function(){
+			$('.wrap-loading').addClass("display-none");
+		},
+		success: function(retVal){
+			//alert("blabla"+retVal.val);
+			
+			var userlist = []; //배열 데이터 저장//
+			userlist = retVal.val;
+			
+			var listcount = userlist.length;
+			
+			$('#tablefield').empty(); //수정된 테이블을 다시 로드하기 위해서 기존 테이블 영역을 지운다.//
+			
+			var printHTML = '';
+			
+			if(listcount > 0){
+				printHTML = "<div id='userlist'>";
+				printHTML += "<table border='1'>";
+		        	printHTML += "<thead>";
+		        	printHTML += "<tr>";
+		        	printHTML += "<th>구분</th>";
+		        	printHTML += "<th>이름</th>";
+		        	printHTML += "<th>나이</th>";
+		        	printHTML += "<th>이미지</th>";
+		        	printHTML += "<th>수정</th>";
+		        	printHTML += "<th>제거</th>";
+		        	printHTML += "</tr>";
+		        	printHTML += "</thead>"; 
+		        	printHTML += "<tbody>";
+	            
+	            //테이블에 들어갈 데이터를 삽입//
+	            $.each(userlist, function(index,value) {
+	            		printHTML += "<tr>";
+		            	printHTML += "<td>"+value.USER_NO+"</td>";
+		            	printHTML += "<td>"+value.USER_NAME+"</td>";
+		            	printHTML += "<td>"+value.USER_AGE+"</td>";
+		            	printHTML += "<td><img src='./resources/images/"+value.USER_IMAGE+"' width='100' height='100'></td>";
+		            	printHTML += "<td><button value='"+value.USER_NAME+"' onclick='userinfoupdate(this.value)'>수정</button></td>";
+		            	printHTML += "<td><button value='"+value.USER_NAME+"' onclick='userinfodelete(this.value)'>삭제</button></td>";
+		            	printHTML += "</tr>";          			  
+       	 		});
+	            
+	            printHTML += "</tbody>";
+	            printHTML += "</table>";
+	            printHTML += "</div>";
+			} else{
+				printHTML = "<div id='userlist'>";
+				printHTML += "<p id='info_sub1' style='font-size:14px;color:#586069; margin:0px'><b>조회된 사용자가 없습니다.</b></p>";
+				printHTML += "</div>";
+			}
+			
+			$('#tablefield').append(printHTML); //다시 테이블을 보여주기 위해서 HTML코드 적용//
+		},
+		error: function(retVal, status, er){
+			alert("error: "+retVal+" status: "+status+" er:"+er);
+		}
+	})
+})
 });
+
 </script>
 </html>
