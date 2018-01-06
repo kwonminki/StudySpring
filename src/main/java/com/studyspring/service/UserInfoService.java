@@ -17,4 +17,6 @@ public interface UserInfoService {
 	public List<UserInfoVO> getUserInfoListService();
 	public List <Map<String, Object>> searchUserInfoDBService(Map<String, Object> params);
 	public int deleteUserInfoService(UserInfoDeleteRequestVO userInfoDeleteRequestVO);
+	public int updateUserInfoDBService(Map<String, Object>prams);
+	public int deleteUserInfoDBService(Map<String, Object>prams);
 }

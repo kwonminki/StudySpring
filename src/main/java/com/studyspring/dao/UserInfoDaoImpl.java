@@ -96,5 +96,17 @@ public class UserInfoDaoImpl implements UserInfoDao{
 		return sqlSession.selectList("usermanager.searchuser",params);
 	}
 
+	@Override
+	public int updateUserInfoDBDao(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("usermanager.updateuser",params);
+	}
+
+	@Override
+	public int deleteUserInfoDBDao(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("usermanager.deleteuser",params);
+	}
+
 }
 	

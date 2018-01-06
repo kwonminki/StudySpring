@@ -43,5 +43,17 @@ public class UserInfoServiceImpl implements UserInfoService{
 		// TODO Auto-generated method stub
 		return userInfoDao.searchUserInfoDBDao(params);
 	}
+
+	@Override
+	public int updateUserInfoDBService(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return userInfoDao.updateUserInfoDBDao(params);
+	}
+
+	@Override
+	public int deleteUserInfoDBService(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return userInfoDao.deleteUserInfoDBDao(params);
+	}
 	
 }
